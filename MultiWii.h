@@ -1,7 +1,7 @@
 #ifndef MULTIWII_H_
 #define MULTIWII_H_
 
-#include "MultiWii.ino" // to get the VERSION
+#include "MultiWii_Version.h" // to get the VERSION
 
 #include "types.h"
 

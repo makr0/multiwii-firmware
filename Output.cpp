@@ -4,6 +4,7 @@
 #include "types.h"
 #include "MultiWii.h"
 #include "Alarms.h"
+#include "Sensors.h"
 
 void initializeSoftPWM(void);
 
@@ -224,6 +225,38 @@ void writeServos() {
 /**************************************************************************************/
 /************  Writes the Motors values to the PWM compare register  ******************/
 /**************************************************************************************/
+#if defined I2C_MOTORS
+
+void writeMotor_I2C(uint8_t add,uint8_t val ) {
+  i2c_rep_start(add<<1); // I2C write direction
+  i2c_write(add);
+  i2c_write(val);
+  i2c_stop();
+}
+
+void writeMotors() {
+  //         BlCtrl        MultiWii
+  // vorn   I2C_MOTOR_0      3 
+  // hinten I2C_MOTOR_1      0
+  // rechts I2C_MOTOR_2      1
+  // links  I2C_MOTOR_3      2
+  uint8_t links, rechts, hinten;
+
+  hinten = constrain((motor[0]-980)/4 + 5,0,255);
+  rechts = constrain((motor[1]-980)/4 + 5,0,255);
+  links  = constrain((motor[2]-980)/4 + 5,0,255);
+
+  // writeMotor_I2C(I2C_MOTOR_0,(motor[0]-1000)/4 + 5);
+  if( hinten > 0 ) writeMotor_I2C(I2C_MOTOR_1,hinten);
+  if( rechts > 0 ) writeMotor_I2C(I2C_MOTOR_2,rechts);
+  if( links  > 0 ) writeMotor_I2C(I2C_MOTOR_3,links);
+
+  debug[0]=(motor[0]-980)/4 + 5;
+  debug[1]=(motor[1]-980)/4 + 5;
+  debug[2]=(motor[2]-980)/4 + 5;
+//  debug[3]=(motor[3]-980)/4 + 5;
+}
+#else
 void writeMotors() { // [1000;2000] => [125;250]
   /****************  Specific PWM Timers & Registers for the MEGA's   *******************/
   #if defined(MEGA)// [1000:2000] => [8000:16000] for timer 3 & 4 for mega
@@ -420,7 +453,7 @@ void writeMotors() { // [1000;2000] => [125;250]
     #endif
   #endif
 }
-
+#endif 
 /**************************************************************************************/
 /************          Writes the mincommand to all Motors           ******************/
 /**************************************************************************************/

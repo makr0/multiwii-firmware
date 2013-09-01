@@ -35,7 +35,7 @@
   /**************************    The type of multicopter    ****************************/
     //#define GIMBAL
     //#define BI
-    //#define TRI
+    #define TRI
     //#define QUADP
     //#define QUADX
     //#define Y4
@@ -61,7 +61,7 @@
     //#define MINTHROTTLE 1120 // for Super Simple ESCs 10A
     //#define MINTHROTTLE 1064 // special ESC (simonk)
     //#define MINTHROTTLE 1050 // for brushed ESCs like ladybird
-    #define MINTHROTTLE 1150 // (*) (**)
+    #define MINTHROTTLE 1040 // (*) (**)
 
   /****************************    Motor maxthrottle    *******************************/
     /* this is the maximum value for the ESCs at full power, this value can be increased up to 2000 */
@@ -70,7 +70,7 @@
   /****************************    Mincommand          *******************************/
     /* this is the value for the ESCs when they are not armed
        in some cases, this value must be lowered down to 900 for some specific ESCs, otherwise they failed to initiate */
-    #define MINCOMMAND  1000
+    #define MINCOMMAND  960
 
   /**********************************    I2C speed   ************************************/
     #define I2C_SPEED 100000L     //100kHz normal mode, this value must be used for a genuine WMP
@@ -97,7 +97,7 @@
       //#define FREEIMUv035_BMP // FreeIMU v0.3.5_BMP
       //#define FREEIMUv04      // FreeIMU v0.4 with MPU6050, HMC5883L, MS561101BA                  <- confirmed by Alex
       //#define FREEIMUv043     // same as FREEIMUv04 with final MPU6050 (with the right ACC scale)
-      //#define NANOWII         // the smallest multiwii FC based on MPU6050 + pro micro based proc <- confirmed by Alex
+      #define NANOWII         // the smallest multiwii FC based on MPU6050 + pro micro based proc <- confirmed by Alex
       //#define PIPO            // 9DOF board from erazz
       //#define QUADRINO        // full FC board 9DOF+baro board from witespy  with BMP085 baro     <- confirmed by Alex
       //#define QUADRINO_ZOOM   // full FC board 9DOF+baro board from witespy  second edition
@@ -900,6 +900,18 @@
     //#define EXT_MOTOR_RANGE // using this with wii-esc requires to change MINCOMMAND to 1008 for promini and mega
 
   /**************************************************************************************/
+  /** Motor ESCs connected via I2C **/
+  /**************************************************************************************/
+  // default BLCtrl-adressen
+  // 1:vorn 2:hinten 3:rechts 4:links
+
+  #define I2C_MOTORS
+  #define I2C_MOTOR_0 41 // vorn
+  #define I2C_MOTOR_1 42 // hinten (MW: 0)
+  #define I2C_MOTOR_2 43 // rechts (MW: 1)
+  #define I2C_MOTOR_3 44 // links  (MW: 2)     
+
+  /**************************************************************************************/
   /***********************     motor, servo and other presets     ***********************/
   /**************************************************************************************/
     /* motors will not spin when the throttle command is in low position
@@ -946,7 +958,7 @@
     //#define A32U4_4_HW_PWM_SERVOS
 
     #define SERVO_RFR_RATE  50    // In Hz, you can set it from 20 to 400Hz, used only in HW PWM mode for mega and 32u4
-    //#define SERVO_PIN5_RFR_RATE  200    // separate yaw pwm rate.
+    #define SERVO_PIN5_RFR_RATE  160    // separate yaw pwm rate.
                                           // In Hz, you can set it from 20 to 400Hz, used only in HW PWM mode for 32u4
 
 
